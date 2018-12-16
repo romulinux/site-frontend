@@ -1,0 +1,310 @@
+@import 'mixin.scss';
+
+$base: rgba(#333, .3);
+$base-solid: #333;
+$base-dark: darken($base, 15);
+$base-dark-solid: darken($base-solid, 15);
+$border: solid 1px $base-dark;
+$fixed-height: 64px;
+
+.dfaicjcc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+  background: $base;
+  border: $border;
+
+  position: relative;
+}
+
+.template {
+  display: flex;
+  width: 100%;
+  border: $border;
+  background: $base;
+  margin: 1px;
+}
+
+.header,
+.footer {
+  @extend .template;
+  max-width: 2000px;
+}
+
+.header {
+  height: 600px;
+}
+
+.footer{
+  min-height: 400px;
+}
+
+.content {
+  @extend .dfaicjcc;
+  flex-direction: column;
+  width: 50%;
+  height: auto;
+  background: $base;
+
+  &__item {
+    @extend .dfaicjcc;
+    width: 100%;
+    height: 250px;
+    border: $border;
+
+    &:nth-child(even) {
+      height: 600px;
+    }
+
+    @include transition(font-size .6s ease);
+
+    &:hover {
+      @include transition(font-size .6s ease);
+      @include font-size(30px);
+    }
+  }
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  background: $base;
+  border-radius: 5px;
+  z-index: 1;
+
+  &__title {
+    @extend .dfaicjcc;
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    text-transform: uppercase;
+  }
+  
+  &__fieldset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 96%;
+    margin: 16px 0 32px 0;
+  }
+  
+  &__label {
+    @extend .dfaicjcc;
+    text-align: right;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0 8px;
+  }
+  
+  &__input {
+    @extend .dfaicjcc;
+    text-align: left;
+    width: 100%;
+    font-size: 18px;
+    color: $base;
+    margin: 6px 0;
+
+    $networks: facebook $facebook blue 12px, google $google-plus red 12px, instagram $instagram purple 12px, whatsapp $whatsapp green 12px;
+
+    @each $network in $networks {
+      $modifier : nth($network, 1);
+      &--#{$modifier} {
+        @extend .form__input;
+        justify-content: flex-start;
+        $value : nth($network, 2);
+        $color : nth($network, 3);
+        $font-size : nth($network, 4);
+        $pseudo: before;
+        @include icon($value, $color, $font-size, $pseudo);
+        &:#{$pseudo} {
+          margin: 0 4px;
+          align-items: flex-start;
+        }
+      }
+    }
+    
+    &--submit {
+      @extend .form__input;
+      padding: 4px;
+      margin: 0 auto;
+      background: $base;
+      
+      @include transition(background font-weight .8s linear);
+      
+      &:hover {
+        background: lighten($base, 20);
+        font-weight: bold;
+      }
+    }
+  }
+
+  &--floating {
+    @extend .form;
+    position: sticky;
+    top: $fixed-height;
+  }
+    
+  &--center {
+    @extend .form;
+    margin: 0 auto;
+  }
+}
+
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: $fixed-height;
+  position: sticky;
+  top: 0;
+  background: $base-dark-solid;
+  z-index: 10;
+
+  &-item {
+    @extend .dfaicjcc;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    @include font-size(12px);
+    text-transform: uppercase;
+    height: 100%;
+    width: 100%;
+    flex: 1;
+    text-decoration: none;
+
+    @include transition(font-size .6s linear);
+
+    &:hover {
+      @include transition(color background border font-size width .6s ease);
+      color: white;
+      background: darken($base-dark-solid, 8);
+      border: $border;
+      @include font-size(16px);
+      font-weight: bold;
+    }
+  }
+}
+
+.login {
+  @extend .dfaicjcc;
+  flex-direction: column;
+  min-width: $fixed-height;
+  min-height: $fixed-height;
+  margin-left: auto;
+  position: relative;
+  cursor: pointer;
+
+  &__avatar {
+    @extend .dfaicjcc;
+    @include icon($user, white, 32px);
+  }
+
+  &__user {
+    @extend .dfaicjcc;
+  }
+
+  &__name {
+    @extend .dfaicjcc;
+    text-align: center;
+    color: white;
+    @include font-size(12px);
+    padding: 2px;
+  }
+  
+  &__status {
+    @extend .dfaicjcc;
+    $login-status-font-size : 12px;
+    padding: 2px;
+
+    &--online {
+      @extend .login__status;
+      @include icon($dot-circle, green, $login-status-font-size);
+    }
+    &--buzy {
+      @extend .login__status;
+      @include icon($dot-circle, orange, $login-status-font-size);
+    }
+    &--offline {
+      @extend .login__status;
+      @include icon($dot-circle, red, $login-status-font-size);
+    }
+  }
+
+  &__actions {
+    @extend .dfaicjcc;
+    flex-direction: column;
+    justify-content: space-around;
+    display: none;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 0;
+    border: $border;
+    background: $base-solid;
+
+    @include transition(width height .6s linear);
+  }
+  
+  &:hover {
+    .login__actions {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      @include transition(width height .6s linear);
+    }
+  }
+}
+.arrow {
+  @extend .dfaicjcc;
+  width: 40px;
+  height: 40px;
+  text-decoration: none;
+  position: fixed;
+}
+.arrow-to {
+  @extend .arrow;
+  @include icon($arrow-up, gray);
+  @include font-size(30px);
+  right: 5%;
+  bottom: 5%;
+  z-index: 9;
+
+  &:hover {
+    @include transition(font-size .5s linear);
+    @include font-size(36px);
+  }
+}
+
+.action {
+  &__sign-in {
+    @extend .dfaicjcc;
+    @include icon($sign-in, green, 10px, after);
+    color: green;
+  }
+  &__logout {
+    @extend .dfaicjcc;
+    @include icon($log-out, red, 10px, after);
+    color: red;
+  }
+}
