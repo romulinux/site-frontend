@@ -157,6 +157,30 @@ $fixed-height: 64px;
     }
   }
 
+  &__icon {
+    @extend .dfaicjcc;
+
+    $networks: facebook $facebook blue 12px, google $google-plus red 12px, instagram $instagram purple 12px, whatsapp $whatsapp green 12px;
+    @each $network in $networks {
+      $modifier: nth($network, 1);
+
+      &--#{$modifier} {
+        @extend .form__icon;
+        justify-content: flex-start;
+        $value: nth($network, 2);
+        $color: nth($network, 3);
+        $font-size: nth($network, 4);
+        $pseudo: before;
+        @include icon($value, $color, $font-size, $pseudo);
+
+        &:#{$pseudo} {
+          margin: 0 4px;
+          align-items: flex-start;
+        }
+      }
+    }
+  }
+
   &--floating {
     @extend .form;
     position: sticky;
